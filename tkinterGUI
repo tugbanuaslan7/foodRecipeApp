@@ -1,0 +1,249 @@
+from tkinter import *
+import tkinter as tk
+
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+
+    def print_list(self):
+        cur_node = self.head
+        while cur_node:
+            print(cur_node.data)
+            cur_node = cur_node.next
+
+# Seçilen ürünleri tutacak linked list
+seçilen_ürünler = LinkedList()
+
+def on_configure(event):
+    canvas.configure(scrollregion=canvas.bbox('all'))
+
+
+# Butona tıklandığında çalışacak işlemler burada
+def button_click(ürün):
+    # Ürünü linked list'e ekle
+    seçilen_ürünler.append(ürün)
+    print(f"{ürün} butonuna tıklandı ve linked list'e eklendi!")
+    # Linked list'i konsola yazdır
+    seçilen_ürünler.print_list()
+
+
+window = tk.Tk()
+window.geometry("1000x600")
+window.title("uygulama adi")
+
+# Dikey kaydırma çubuğu
+vsb = Scrollbar(window, orient="vertical")
+vsb.pack(side="right", fill="y")
+
+# Yatay kaydırma çubuğu
+hsb = Scrollbar(window, orient="horizontal")
+hsb.pack(side="bottom", fill="x")
+
+# Canvas widget'ı, içeriği kaydırmak için kullanılır
+canvas = Canvas(window, yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+canvas.pack(side="left", fill="both", expand=True)
+
+# Dikey kaydırma çubuğunu canvas'a bağla
+vsb.config(command=canvas.yview)
+
+# Yatay kaydırma çubuğunu canvas'a bağla
+hsb.config(command=canvas.xview)
+
+# Canvas içindeki çerçeve, içerideki butonları düzenlemek için kullanılır
+frame = Frame(canvas)
+canvas.create_window((0, 0), window=frame, anchor='nw')
+
+
+#
+#SEBZELER
+#
+
+# Tkinter etiketi oluşturuluyor
+etiket = tk.Label(
+    frame,
+    text="Sebzeler",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=0, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+sebzeler = ["Domates", "Salatalık", "Patates", "Soğan","Sarımsak", "Yeşil Biber","Kapya Biber", "Havuç", "Ispanak", "Turp","Nane","Taze Fasulye","Mısır","Dolmalık Biber","Pırasa","Mantar","Bezelye","Kabak","Bal Kabağı", "Brokoli",
+ "Karnabahar","Kereviz","Enginar", "Asma Yaprağı","Kara Lahana", "Lahana", "Maydanoz", "Dereotu","Roka","Marul","Fesleğen","Marul","Bamya"]
+
+# Butonları ekleyelim
+for i, sebze in enumerate(sebzeler):
+    button = tk.Button(frame, text=sebze, command=lambda s=sebze: button_click(s))
+    button.grid(row=(i // 10) + 1, column=i % 10, padx=5, pady=5)
+
+
+#
+#MEYVELER
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Meyveler",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=5, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+meyveler = ["Elma", "Portakal", "Mandalina", "Limon","Çilek", "Muz","Şeftali", "Armut", "Ayva", "Greyfurt","Üzüm","Yaban Mersini","Ananas","Avakado","Nar","Karpuz","Hindistan Cevzi","İncir","Kivi", "Frambuaz",
+ "Vişne","Kiraz","Erik","Kavun","Hurma","Mango"]
+
+# Butonları ekleyelim
+for i, meyve in enumerate(meyveler):
+    button = tk.Button(frame, text=meyve, command=lambda m=meyve: button_click(m))
+    button.grid(row=(i // 10) + 6, column=i % 10, padx=5, pady=5)
+
+
+
+#
+#HAYVANSAL GIDALAR
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Hayvansal Gıdalar ",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=10, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+hayvansal = ["Yumurta", "Kıyma", "Tavuk Göğüsü", "Tavuk Baget","Tavuk Kanat ", "Kuşbaşı Et","Hamsi", "Palamut", "Levrek", "Çinekop","Uskumru","Mezgit","Somon","Ton Balığı","Kuzu Kıyma","Kuzu pirzola","Hindi Eti","Dana Bonifile","Dana Antrikot","Sucuk","Sosis", "Kuru Et","Füme Et",
+ "Jambon","Pastırma","Kalamar","Karides","Yengeç","Tavuk Suyu","Et Suyu","Balık Suyu"]
+
+# Butonları ekleyelim
+for i, hayvan in enumerate(hayvansal):
+    button = tk.Button(frame, text=hayvan, command=lambda h=hayvan: button_click(h))
+    button.grid(row=(i // 10) + 11, column=i % 10, padx=5, pady=5)
+
+
+
+
+#
+#Süt Ve Süt Ürünleri
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Süt Ürünleri",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=15, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+sütler = ["Margarin", "Tereyağı", "İnek Sütü", "Badem Sütü","Krema","Yoğut", "Süzme Yoğurt","Süzme Peynir", "Kaşar Peynir", "Mozzarella Peynir", "Ezine Peynir","Tulum Peynir","Labne Peynir","Mascarpone Peynir","Beyaz Peynir","Parmesan Peyniri","Kaymak","Cheddar Peynir","Kolot Peynir"]
+
+# Butonları ekleyelim
+for i, süt in enumerate(sütler):
+    button = tk.Button(frame, text=süt, command=lambda s=süt: button_click(s))
+    button.grid(row=(i // 10) + 16, column=i % 10, padx=5, pady=5)
+
+
+
+#
+#Bakliyat
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Bakliyat",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=20, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+bakliyat = ["Kuru fasulye","Meksika fasulyesi","Yeşil mercimek","Bakla","Maş fasulyesi","Kırmızı mercimek","Sarı mercimek","Kuru börülce","Barbunya","Nohut","Pirinç",
+"Bulgur","Karabuğday","Risotto pirinci","Köftelik bulgur","Firik bulguru","Siyez Bulguru"]
+
+# Butonları ekleyelim
+for i, bakla in enumerate(bakliyat):
+    button = tk.Button(frame, text=bakla, command=lambda b=bakla: button_click(b))
+    button.grid(row=(i // 10) + 21, column=i % 10, padx=5, pady=5)
+
+
+
+
+#
+# TAHILLAR
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Tahıllar ",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=25, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+tahillar = ["Un", "Mısır Unu", "Buğday Nişastası", "Mısır Nişastası", "Tam Buğday Ekmeği", "Hamburger Ekmeği", "Tost Ekmeği", "Sandviç Ekmeği", "Bayat Ekmek",
+ "Lavaş", "Kepek Ekmeği", "Makarna", "Yulaf", "Mantı", "Şehriye", "Erişte", "Tarhana", "Lazanya", "Granola"]
+
+# Butonları ekleyelim
+for i, tahil in enumerate(tahillar):
+    button = tk.Button(frame, text=tahil, command=lambda t=tahil: button_click(t))
+    button.grid(row=(i // 10) + 26, column=i % 10,padx=5,pady=5)
+
+
+
+#
+#Baharat
+#
+
+
+etiket = tk.Label(
+    frame,
+    text="Baharatlar",
+    font="Tahoma 19",
+    wraplength=500
+)
+etiket.grid(row=30, column=0, sticky="w", padx=10, pady=(20, 0))  # Etiketi sola üste taşı, üst boşluk 20, alt boşluk 0
+
+# Butonları ekleyelim (örnek için 10x10 bir ızgara)
+# Buton adlarını içeren liste
+baharat = ["Kuru fasulye","Meksika fasulyesi","Yeşil mercimek","Bakla","Maş fasulyesi","Kırmızı mercimek","Sarı mercimek","Kuru börülce","Barbunya","Nohut","Pirinç",
+"Bulgur","Karabuğday","Risotto pirinci","Köftelik bulgur","Firik bulguru","Siyez Bulguru"]
+
+# Butonları ekleyelim
+for i, baharat in enumerate(baharat):
+    button = tk.Button(frame, text=baharat, command=lambda b=baharat: button_click(b))
+    button.grid(row=(i // 10) + 31, column=i % 10, padx=5, pady=5)
+
+# Canvas'ın boyutunu ayarlamak için olay dinleyicisi
+canvas.bind('<Configure>', on_configure)
+
+window.mainloop()
